@@ -1,0 +1,23 @@
+# OS Metadata (System Junk)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Code Editor Configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Production Log and Local Automation variables
+logs
+*.log
+npm-debug.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
