@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Property Management & Infrastructure</title>
+  <script src="https://tailwindcss.com"></script>
+  <!-- Luxury Editorial Typography Fonts -->
+  <link href="https://googleapis.com" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #FBFBFA; color: #1A1A1A; }
+    .font-editorial { font-family: 'Cormorant Garamond', serif; }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#FF1493] selection:text-white">
+
+  <!-- Minimalist Ritz-Carlton Style Navigation Bar -->
+  <header class="w-full border-b border-[#DFD3C3]/40 py-6 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="font-editorial text-2xl font-semibold tracking-wider text-[#1A1A1A]">
+      LUXERA <span class="block font-sans text-[9px] font-light tracking-[0.3em] uppercase text-gray-400 mt-1">{{NICHE}} — {{GEO_CITY}}</span>
+    </div>
+    <div>
+      <a href="tel:{{TRACKING_PHONE}}" class="text-xs font-medium uppercase tracking-[0.2em] border-b border-[#1A1A1A] pb-1 hover:text-[#FF1493] hover:border-[#FF1493] transition-all duration-300">
+        Confer Specialist
+      </a>
+    </div>
+  </header>
+
+  <!-- Split Hero Framework: Architectural Digest Layout -->
+  <main class="max-w-7xl mx-auto px-6 py-12 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+    
+    <!-- Left Column: Editorial Brand Authority -->
+    <div class="lg:col-span-7 space-y-6">
+      <span class="text-xs font-medium uppercase tracking-[0.3em] text-[#FF1493] block">Infrastructure & Estate Restoration</span>
+      <h1 class="font-editorial text-4xl lg:text-6xl font-light text-[#1A1A1A] leading-[1.15] tracking-tight">
+        The standard of flawless <span class="italic text-gray-400">property mechanics</span>, quietly delivered in {{GEO_CITY}}.
+      </h1>
+      <p class="text-gray-500 font-light max-w-xl leading-relaxed text-sm lg:text-base">
+        Your property is a premium asset that demands absolute structural discretion. Our local tier-one technician network handles heavy infrastructure systems instantly, restoring seamless property dynamics with zero disruption to your daily lifestyle.
+      </p>
+      
+      <!-- Premium Trust Footprint -->
+      <div class="pt-8 border-t border-[#DFD3C3]/30 flex items-center space-x-6 text-[10px] text-gray-400 uppercase tracking-widest">
+        <span>Verified Area Licensing</span>
+        <span>•</span>
+        <span>Bilingual Dispatch Enabled</span>
+        <span>•</span>
+        <span>Inquiries: info@1919casa.com</span>
+      </div>
+    </div>
+
+    <!-- Right Column: The Amazon-Grade Intake Gateway -->
+    <div class="lg:col-span-5">
+      <div class="bg-white p-8 lg:p-10 rounded-none border border-[#DFD3C3]/50 shadow-sm relative">
+        <!-- Razor-Thin Top Accent Bar -->
+        <div class="absolute top-0 left-0 right-0 h-[2px] bg-[#1A1A1A]"></div>
+        
+        <h3 class="font-editorial text-2xl font-medium text-[#1A1A1A] mb-2">Initiate Request</h3>
+        <p class="text-xs text-gray-400 font-light tracking-wide mb-8">Please complete your brief profile parameters below to route an on-call specialist.</p>
+
+        <!-- Form Directs directly to your Central n8n Google Sheet Webhook -->
+        <form action="YOUR_N8N_WEBHOOK_URL_HERE" method="POST" class="space-y-6">
+          
+          <!-- Hidden Tokens parsed seamlessly by your n8n Agent -->
+          <input type="hidden" name="property_id" value="LXR-{{NICHE}}-{{GEO_CITY}}">
+          <input type="hidden" name="domain_name" value="{{DOMAIN_NAME}}">
+
+          <!-- User Name -->
+          <div>
+            <label class="block text-[9px] font-medium text-gray-400 uppercase tracking-[0.2em] mb-2">Estate Contact Name</label>
+            <input type="text" name="prospect_name" required placeholder="E.g., Sterling Davis" 
+                   class="w-full px-0 py-2 bg-transparent border-b border-[#DFD3C3] text-gray-900 focus:outline-none focus:border-[#FF1493] transition-colors font-light text-sm">
+          </div>
+
+          <!-- User Phone -->
+          <div>
+            <label class="block text-[9px] font-medium text-gray-400 uppercase tracking-[0.2em] mb-2">Direct Phone Wire</label>
+            <input type="tel" name="prospect_phone" required placeholder="E.g., (352) 555-0199" 
+                   class="w-full px-0 py-2 bg-transparent border-b border-[#DFD3C3] text-gray-900 focus:outline-none focus:border-[#FF1493] transition-colors font-light text-sm">
+          </div>
+
+          <!-- User Email -->
+          <div>
+            <label class="block text-[9px] font-medium text-gray-400 uppercase tracking-[0.2em] mb-2">Secure Email Endpoint</label>
+            <input type="email" name="prospect_email" required placeholder="E.g., corporate@estate.com" 
+                   class="w-full px-0 py-2 bg-transparent border-b border-[#DFD3C3] text-gray-900 focus:outline-none focus:border-[#FF1493] transition-colors font-light text-sm">
+          </div>
+
+          <!-- Project/Emergency Details -->
+          <div>
+            <label class="block text-[9px] font-medium text-gray-400 uppercase tracking-[0.2em] mb-2">Technical System Context / Malfunction Briefing</label>
+            <textarea name="issue_description" rows="2" required placeholder="Describe your structural requirement or immediate mechanical emergency..." 
+                      class="w-full px-0 py-2 bg-transparent border-b border-[#DFD3C3] text-gray-900 focus:outline-none focus:border-[#FF1493] transition-colors font-light text-sm resize-none"></textarea>
+          </div>
+
+          <!-- The High-Contrast Hot Tropical Pink Conversion Call-To-Action -->
+          <div class="pt-4">
+            <button type="submit" 
+                    class="w-full bg-[#1A1A1A] text-white hover:bg-[#FF1493] font-sans text-xs font-medium py-4 uppercase tracking-[0.25em] transition-all duration-300 ease-in-out shadow-sm tracking-widest">
+              Authorize Priority Dispatch
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
