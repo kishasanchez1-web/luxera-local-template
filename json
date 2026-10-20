@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "node-manual-reset-trigger",
+      "name": "On Clicking Execute",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Agent 2 (The Luxury Product Architect). Your objective is to build premium, code-compliant HTML storefront modules for 'Organize My Beautiful Life™' using a crisp white canvas (#FFFFFF), deep navy text (#002147), and razor-thin gold lines (#D4AF37). Do not output any gray boxes or markdown wrappers. Deliver pure, production-ready code.",
+        "options": {}
+      },
+      "id": "node-advanced-ai-agent-brain",
+      "name": "Luxury Product Agent Engine",
+      "type": "n8n-nodes-base.agent",
+      "typeVersion": 1,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "model_name": "gemini-1.5-flash",
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "node-gemini-ai-studio",
+      "name": "Free Google Gemini Engine",
+      "type": "n8n-nodes-base.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [450, 550]
+    },
+    {
+      "parameters": {
+        "authentication": "personalAccessToken",
+        "owner": "kishasanchez1-web",
+        "repository": "luxera-local-template",
+        "operation": "edit",
+        "filePath": "index.html",
+        "binaryData": false,
+        "fileContent": "={{ $json.output }}",
+        "commitMessage": "Autonomous system push: updated luxury storefront asset architecture"
+      },
+      "id": "node-github-publisher-tool",
+      "name": "GitHub Free Host Tool",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [680, 400]
+    }
+  ],
+  "connections": {
+    "On Clicking Execute": {
+      "main": [
+        [
+          {
+            "node": "Luxury Product Agent Engine",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Free Google Gemini Engine": {
+      "ai_language_model": [
+        [
+          {
+            "node": "Luxury Product Agent Engine",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Free Host Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Luxury Product Agent Engine",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
