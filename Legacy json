@@ -1,0 +1,229 @@
+{
+  "name": "Luxera Revenue Engine - Advocate & Legacy Router",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "luxera-intake",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-intake-01",
+      "name": "Luxera Hub Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "webhookId": "luxera-intake-webhook"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.division }}",
+                    "rightValue": "advocate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Advocate"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.division }}",
+                    "rightValue": "legacy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Legacy"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "division-switch-02",
+      "name": "Division Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleapis.com",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"You are the Senior Policy Cross-Examination Director at Luxera Advocate. Tone: Quiet luxury, calm, authoritative, precise. Client Name: {{ $json.body.name }}. State: {{ $json.body.state || 'Florida' }}. Claim Type: {{ $json.body.claim_type || 'Property/Roof' }}. Denial Summary: {{ $json.body.details }}. Draft: 1) A 3-point policy & statutory rebuttal outline identifying common carrier bad-faith or misapplied exclusion errors. 2) A formal Request for Reconsideration header ready for signature. Keep it concise and actionable.\"\n    }]\n  }]\n}",
+        "options": {}
+      },
+      "id": "gemini-advocate-03",
+      "name": "Advocate Policy Cross-Exam Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [740, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleapis.com",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"You are the Senior Estate Concierge Director at Luxera Legacy. Tone: Quiet luxury, compassionate, calm, discreet. Client Name: {{ $json.body.name }}. State: {{ $json.body.state || 'Florida' }}. Estate Situation: {{ $json.body.details }}. Draft: 1) A prioritized 7-day immediate stabilization checklist (credit bureau freeze, institution notifications, small-estate affidavit threshold check). 2) A formal Institution Account Closure & Freeze Notice template ready for signature.\"\n    }]\n  }]\n}",
+        "options": {}
+      },
+      "id": "gemini-legacy-04",
+      "name": "Legacy Estate Concierge Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [740, 420]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-dossier",
+              "name": "generated_dossier",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-client-email",
+              "name": "client_email",
+              "value": "={{ $('Luxera Hub Webhook').item.json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-division",
+              "name": "division",
+              "value": "={{ $('Luxera Hub Webhook').item.json.body.division }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-stripe-link",
+              "name": "checkout_url",
+              "value": "={{ $('Luxera Hub Webhook').item.json.body.division === 'advocate' ? 'https://stripe.com' : 'https://stripe.com' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-output-05",
+      "name": "Package Dossier & Payment Link",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1000, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"division\": \"{{ $json.division }}\",\n  \"message\": \"Your private Luxera dossier has been prepared.\",\n  \"next_step_url\": \"{{ $json.checkout_url }}\"\n}",
+        "options": {}
+      },
+      "id": "webhook-response-06",
+      "name": "Respond to Website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1240, 300]
+    }
+  ],
+  "connections": {
+    "Luxera Hub Webhook": {
+      "main": [
+        [
+          {
+            "node": "Division Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Division Router": {
+      "main": [
+        [
+          {
+            "node": "Advocate Policy Cross-Exam Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Legacy Estate Concierge Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advocate Policy Cross-Exam Agent": {
+      "main": [
+        [
+          {
+            "node": "Package Dossier & Payment Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Legacy Estate Concierge Agent": {
+      "main": [
+        [
+          {
+            "node": "Package Dossier & Payment Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Package Dossier & Payment Link": {
+      "main": [
+        [
+          {
+            "node": "Respond to Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
