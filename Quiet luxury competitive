@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUXERA | Effortless Stewardship for Home, Capital & Legacy</title>
+  <link rel="preconnect" href="https://googleapis.com">
+  <link href="https://googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --bg-alt: #F3EFE8;
+      --text: #1C1B18;
+      --muted: #5A564E;
+      --gold: #B39968;
+      --border: #E2DDD2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .sans { font-family: 'Inter', sans-serif; }
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    header {
+      border-bottom: 1px solid var(--gold);
+      padding: 22px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(250, 248, 245, 0.96);
+      z-index: 50;
+    }
+    .logo {
+      font-size: 22px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text);
+    }
+    nav a {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      margin-left: 24px;
+    }
+    nav a:hover { color: var(--gold); }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .hero {
+      text-align: center;
+      padding: 110px 24px 96px;
+      border-bottom: 1px solid var(--gold);
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.18;
+      margin-bottom: 22px;
+    }
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 38px;
+      font-size: 20px;
+      color: var(--muted);
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px 34px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn:hover, .btn-solid {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    .btn-solid:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
+    }
+    .section { padding: 88px 0; border-bottom: 1px solid var(--gold); }
+    .section-title {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-title h2 {
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .card {
+      border: 1px solid var(--gold);
+      padding: 36px 30px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card h3 {
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .price {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .card p { font-size: 17px; color: var(--muted); margin-bottom: 26px; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; border: 1px solid var(--gold); }
+    th, td { padding: 18px 20px; border-bottom: 1px solid var(--border); text-align: left; }
+    th {
+      background: var(--bg-alt);
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .academy-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--gold);
+      padding: 60px 40px;
+      text-align: center;
+    }
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 27, 24, 0.65);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal {
+      background: var(--bg);
+      border: 1px solid var(--gold);
+      max-width: 520px;
+      width: 100%;
+      padding: 40px;
+      position: relative;
+    }
+    .modal input, .modal select, .modal textarea {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      border: 1px solid var(--gold);
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 14px; padding: 18px; }
+      nav a { margin: 0 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">LUXERA</a>
+    <nav>
+      <a href="#divisions">Divisions</a>
+      <a href="#advantage">The Difference</a>
+      <a href="#academy">Operator Academy</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">The Luxera Collection</p>
+      <h1>Effortless Stewardship</h1>
+      <p>A quieter system for protecting your home, your capital, and your legacy—powered by autonomous administrative infrastructure.</p>
+      <a href="#divisions" class="btn btn-solid">Explore the Six Divisions</a>
+    </div>
+  </section>
+
+  <section id="divisions" class="section">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Considered Infrastructure</p>
+        <h2>Six Specialized Divisions</h2>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div>
+            <h3>Luxera Advocate</h3>
+            <div class="price">$149 Flat Audit or 20–30% Recovery</div>
+            <p>AI cross-examination and formal statutory appeals for wrongfully denied roof, property, and medical insurance claims.</p>
+          </div>
+          <button class="btn" onclick="openIntake('advocate', 'Luxera Advocate — Claim Denial Audit')">Initiate Claim Audit</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Luxera Legacy</h3>
+            <div class="price">$299 – $999 Per Case</div>
+            <p>Done-for-you estate and grief concierge handling bank closures, credit bureau freezes, notices, and small-estate filings.</p>
+          </div>
+          <button class="btn" onclick="openIntake('legacy', 'Luxera Legacy — Estate Settlement')">Request Estate Concierge</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Luxera Heirs</h3>
+            <div class="price">Flat Fee or Equity Partner</div>
+            <p>Reconstructs fractured chains of title and prepares Affidavits of Heirship so families keep 100% of inherited land value.</p>
+          </div>
+          <button class="btn" onclick="openIntake('heirs', 'Luxera Heirs — Clear Title Review')">Submit Property Record</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Luxera Vault</h3>
+            <div class="price">$9 – $19 / Month</div>
+            <p>The foundational record layer. Encrypted storage for deeds, trusts, and IDs that auto-fills institutional forms in seconds.</p>
+          </div>
+          <button class="btn" onclick="openIntake('vault', 'Luxera Vault — Private Access')">Reserve Vault Access</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Luxera Home</h3>
+            <div class="price">$19 – $49 / Month</div>
+            <p>Photo-to-twin digital property ledger tracking appliance warranties, recall alerts, and scheduled vetted maintenance.</p>
+          </div>
+          <button class="btn" onclick="openIntake('home', 'Luxera Home — Digital Property Twin')">Create Home Twin</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Luxera CFO</h3>
+            <div class="price">$15 – $39 / Month</div>
+            <p>Silent capital defense that flags hidden rate hikes, generates dispute scripts, and harvests Schedule C tax deductions.</p>
+          </div>
+          <button class="btn" onclick="openIntake('cfo', 'Luxera CFO — Capital Oversight')">Activate Capital Audit</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="advantage" class="section">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">The Architectural Difference</p>
+        <h2>Why Stewards Choose Luxera</h2>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Division</th>
+              <th>Traditional Incumbents</th>
+              <th>Where They Fail</th>
+              <th style="color:var(--gold);">The Luxera Standard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>LUXERA VAULT</strong></td>
