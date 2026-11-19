@@ -1,0 +1,87 @@
+{
+  "name": "Luxera 6-Division Autonomous Revenue Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "luxera-intake",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook-01",
+      "name": "Luxera Hub Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "webhookId": "luxera-intake-master"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "prompt-builder",
+              "name": "division_prompt",
+              "value": "={{ \n  $json.body.division === 'advocate' ? 'You are the Senior Policy Cross-Examination Director at Luxera Advocate. Draft a 3-point statutory and policy rebuttal outline for a denied ' + $json.body.state + ' insurance claim plus a formal Request for Reconsideration header.' :\n  $json.body.division === 'legacy' ? 'You are the Senior Estate Concierge at Luxera Legacy. Draft a 7-day immediate stabilization checklist (credit freezes, bank notices, small-estate threshold check for ' + $json.body.state + ') plus a formal Institution Account Closure Notice.' :\n  $json.body.division === 'heirs' ? 'You are the Curative Title Director at Luxera Heirs. Outline a chain-of-title kinship reconstruction plan and Affidavit of Heirship checklist for inherited property in ' + $json.body.state + '.' :\n  $json.body.division === 'vault' ? 'You are the Records Architect at Luxera Vault. Generate a personalized 12-item Master Document & Institutional Auto-Fill Onboarding Index for a resident of ' + $json.body.state + '.' :\n  $json.body.division === 'home' ? 'You are the Property Stewardship Director at Luxera Home. Generate a preventive system maintenance, warranty audit, and recall protection schedule for a residence in ' + $json.body.state + '.' :\n  $json.body.division === 'cfo' ? 'You are the Capital Defense Director at Luxera CFO. Generate a recurring bill audit, rate-hike dispute script, and Schedule C tax deduction checklist.' :\n  'You are the Admissions Director at Luxera Operator Academy. Generate a 7-day implementation roadmap for deploying autonomous n8n and GitHub micro-agencies.'\n}}",
+              "type": "string"
+            },
+            {
+              "id": "stripe-router",
+              "name": "checkout_url",
+              "value": "={{ \n  $json.body.division === 'advocate' ? 'https://stripe.com' :\n  $json.body.division === 'legacy' ? 'https://stripe.com' :\n  $json.body.division === 'heirs' ? 'https://stripe.com' :\n  $json.body.division === 'vault' ? 'https://stripe.com' :\n  $json.body.division === 'home' ? 'https://stripe.com' :\n  $json.body.division === 'cfo' ? 'https://stripe.com' :\n  'https://stripe.com'\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-router-02",
+      "name": "Division Prompt & Checkout Router",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position":
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleapis.com",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"Tone: Quiet luxury, calm, authoritative, concise. Client Name: {{ $('Luxera Hub Webhook').item.json.body.name }}. Client Details: {{ $('Luxera Hub Webhook').item.json.body.details }}. Task: {{ $json.division_prompt }}\"\n    }]\n  }]\n}",
+        "options": {}
+      },
+      "id": "node-gemini-03",
+      "name": "Luxera Fulfillment Agent (Gemini Flash)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position":
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"division\": \"{{ $('Luxera Hub Webhook').item.json.body.division }}\",\n  \"dossier_preview\": {{ JSON.stringify($json.candidates.content.parts.text) }},\n  \"next_step_url\": \"{{ $('Division Prompt & Checkout Router').item.json.checkout_url }}\"\n}",
+        "options": {}
+      },
+      "id": "node-respond-04",
+      "name": "Return Dossier & Payment Link",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position":
+    }
+  ],
+  "connections": {
+    "Luxera Hub Webhook": {
+      "main": [[{"node": "Division Prompt & Checkout Router", "type": "main", "index": 0}]]
+    },
+    "Division Prompt & Checkout Router": {
+      "main": [[{"node": "Luxera Fulfillment Agent (Gemini Flash)", "type": "main", "index": 0}]]
+    },
+    "Luxera Fulfillment Agent (Gemini Flash)": {
+      "main": [[{"node": "Return Dossier & Payment Link", "type": "main", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" }
+}
