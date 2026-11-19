@@ -1,0 +1,50 @@
+
+
+
+
+const N8N_WEBHOOK_URL = "";
+function openIntake(division, title) {
+document.getElementById('divisionInput').value = division;
+document.getElementById('modalTitle').innerText = title;
+document.getElementById('formStatus').innerText = "";
+document.getElementById('dossierOutput').style.display = "none";
+document.getElementById('intakeModal').style.display = 'flex';
+}
+function closeIntake() {
+document.getElementById('intakeModal').style.display = 'none';
+}
+document.getElementById('luxeraForm').addEventListener('submit', async function(e) {
+e.preventDefault();
+const btn = document.getElementById('submitBtn');
+const status = document.getElementById('formStatus');
+const output = document.getElementById('dossierOutput');
+btn.innerText = "Routing to Luxera Agent...";
+btn.disabled = true;
+const payload = {
+division: document.getElementById('divisionInput').value,
+name: document.getElementById('nameInput').value,
+email: document.getElementById('emailInput').value,
+state: document.getElementById('stateInput').value,
+details: document.getElementById('detailsInput').value
+};
+try {
+const res = await fetch(N8N_WEBHOOK_URL, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(payload)
+});
+const data = await res.json();
+if (data.dossier_preview) {
+output.innerText = data.dossier_preview;
+output.style.display = "block";
+}
+status.innerHTML = _step_url
+? Preliminary dossier ready. <a href="${_step_url}" style="color:var(--text); font-weight:bold;">Complete Private Activation &rarr;</a>
+: "Preliminary dossier prepared. Check your email for your welcome briefing.";
+} catch (err) {
+status.innerText = "Submission logged. Check your email shortly for your private dossier.";
+} finally {
+btn.innerText = "Generate Dossier & Proceed";
+btn.disabled = false;
+}
+});
