@@ -1,0 +1,54 @@
+{
+  "name": "Luxera Vault Document OCR & Auto-Fill Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "luxera-vault-ingest",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "vault-webhook-01",
+      "name": "Vault Document Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "webhookId": "luxera-vault-ocr"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleapis.com",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"Extract all structured fields from this document text into strict JSON format (document_type, full_name, property_address, policy_or_account_number, carrier_or_institution, expiration_or_recording_date, coverage_or_asset_value). Document Text: {{ $json.body.raw_text }}\"\n    }]\n  }]\n}",
+        "options": {}
+      },
+      "id": "vault-ocr-02",
+      "name": "Extract Structured JSON (Gemini Flash)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position":
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"indexed\",\n  \"vault_record\": {{ $json.candidates.content.parts.text }}\n}",
+        "options": {}
+      },
+      "id": "vault-respond-03",
+      "name": "Return Indexed Vault Record",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position":
+    }
+  ],
+  "connections": {
+    "Vault Document Webhook": { "main": [[{"node": "Extract Structured JSON (Gemini Flash)", "type": "main", "index": 0}]] },
+    "Extract Structured JSON (Gemini Flash)": { "main": [[{"node": "Return Indexed Vault Record", "type": "main", "index": 0}]] }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" }
+}
