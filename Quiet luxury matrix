@@ -1,0 +1,70 @@
+<section id="luxera-advantage" style="background-color:#FAF8F5; color:#1C1B18; padding:80px 24px; font-family:'Georgia', 'Times New Roman', serif; border-top:1px solid #B39968; border-bottom:1px solid #B39968;">
+  <div style="max-width:1120px; margin:0 auto;">
+    
+    <!-- Header -->
+    <div style="text-align:center; margin-bottom:56px;">
+      <p style="font-family:'Helvetica Neue', Arial, sans-serif; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#B39968; margin-bottom:12px;">
+        THE ARCHITECTURAL DIFFERENCE
+      </p>
+      <h2 style="font-size:34px; font-weight:400; letter-spacing:0.08em; text-transform:uppercase; margin:0 0 16px 0;">
+        WHY STEWARDS CHOOSE LUXERA
+      </h2>
+      <p style="max-width:640px; margin:0 auto; font-size:16px; line-height:1.7; color:#4A4741;">
+        Legacy platforms fragment your records, charge predatory percentages, or hand you a checklist during a crisis. Luxera executes the work quietly under one unified roof.
+      </p>
+    </div>
+
+    <!-- Comparison Table -->
+    <div style="overflow-x:auto; border:1px solid #B39968;">
+      <table style="width:100%; border-collapse:collapse; text-align:left; font-size:14px;">
+        <thead>
+          <tr style="border-bottom:1px solid #B39968; background-color:#F3EFE8;">
+            <th style="padding:20px; font-family:'Helvetica Neue', Arial, sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#1C1B18; width:18%;">Division</th>
+            <th style="padding:20px; font-family:'Helvetica Neue', Arial, sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#6E6A61; width:26%;">Traditional Incumbents</th>
+            <th style="padding:20px; font-family:'Helvetica Neue', Arial, sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#6E6A61; width:26%;">Where They Fail</th>
+            <th style="padding:20px; font-family:'Helvetica Neue', Arial, sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#B39968; width:30%;">The Luxera Standard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #E2DDD2;">
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA VAULT<br><span style="font-size:12px; font-weight:normal; color:#B39968;">$9–$19/mo</span></td>
+            <td style="padding:20px; color:#5A564E;">Everplans, GoodTrust, Trustworthy, DocuSign, Google Drive</td>
+            <td style="padding:20px; color:#5A564E;">Passive digital lockers that require tedious manual sorting and never fill forms for you.</td>
+            <td style="padding:20px;"><strong>Active JSON Data Layer:</strong> Parses deeds, IDs, and policies once to auto-fill institutional paperwork across all divisions.</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E2DDD2;">
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA LEGACY<br><span style="font-size:12px; font-weight:normal; color:#B39968;">$299–$999/case</span></td>
+            <td style="padding:20px; color:#5A564E;">Empathy, Trust &amp; Will, Elayne, EstateExec, Probate Law Firms</td>
+            <td style="padding:20px; color:#5A564E;">DIY apps hand grieving families a 100-step checklist; attorneys charge $5,000+ retainers.</td>
+            <td style="padding:20px;"><strong>Done-For-You Execution:</strong> Auto-drafts and dispatches bank closures, credit freezes, and probate filings at a flat fee.</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E2DDD2;">
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA HEIRS<br><span style="font-size:12px; font-weight:normal; color:#B39968;">Flat Fee or %</span></td>
+            <td style="padding:20px; color:#5A564E;">HeirPros, LienSuite, ProTitleUSA, Predatory Land Wholesalers</td>
+            <td style="padding:20px; color:#5A564E;">Search firms charge $2,500+ without fixing deeds; wholesalers buy family land for pennies.</td>
+            <td style="padding:20px;"><strong>Curative Title Packaging:</strong> Reconstructs kinship trees and prepares Affidavits of Heirship so families keep 100% equity.</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E2DDD2;">
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA HOME<br><span style="font-size:12px; font-weight:normal; color:#B39968;">$19–$49/mo</span></td>
+            <td style="padding:20px; color:#5A564E;">HomeZada, Centriq, Thumbtack, Angi, Porch, Upkeep</td>
+            <td style="padding:20px; color:#5A564E;">Lead-gen marketplaces spam homeowners with unvetted contractors; binders require manual entry.</td>
+            <td style="padding:20px;"><strong>Photo-to-Twin Intelligence:</strong> Snap appliance plates once; AI tracks warranties, recalls, and vetted maintenance silently.</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E2DDD2;">
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA CFO<br><span style="font-size:12px; font-weight:normal; color:#B39968;">$15–$39/mo</span></td>
+            <td style="padding:20px; color:#5A564E;">Rocket Money, Monarch, YNAB, Credit Karma, TurboTax</td>
+            <td style="padding:20px; color:#5A564E;">Dashboard fatigue, nagging alerts, and 30–40% success fees just to cancel basic bills.</td>
+            <td style="padding:20px;"><strong>Silent Capital Defense:</strong> Audits rate hikes, generates dispute scripts, and harvests Schedule C deductions automatically.</td>
+          </tr>
+          <tr>
+            <td style="padding:20px; font-weight:bold; letter-spacing:0.06em;">LUXERA ADVOCATE<br><span style="font-size:12px; font-weight:normal; color:#B39968;">$149 or 20–30%</span></td>
+            <td style="padding:20px; color:#5A564E;">Claimable, FightHealthInsurance, Public Adjusters, Attorneys</td>
+            <td style="padding:20px; color:#5A564E;">Health tools ignore property claims; public adjusters take 10–20% of your entire payout.</td>
+            <td style="padding:20px;"><strong>Dual-Domain Cross-Exam:</strong> Audits both roof/property and medical denials against policy text to build citation-backed appeals.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
