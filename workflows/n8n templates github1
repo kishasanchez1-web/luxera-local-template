@@ -1,0 +1,7 @@
+your-repo/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          <-- The auto-deploy engine (hidden folder)
+└── workflows/                  <-- Drop all your n8n agent .json files here
+    ├── agent-1.json
+    └── agent-2.json
