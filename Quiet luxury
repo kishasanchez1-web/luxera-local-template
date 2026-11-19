@@ -1,0 +1,104 @@
+{
+  "name": "Luxera Programmatic Niche SEO Factory",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "seo-cron-01",
+      "name": "Every 12 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n  { slug: 'denied-roof-claim-appeal-florida', division: 'Advocate', title: 'How to Overturn a Denied Roof Insurance Claim in Florida', price: '$149 Policy Audit' },\n  { slug: 'close-deceased-parent-bank-account', division: 'Legacy', title: 'Closing a Deceased Parent Bank Account Without Probate Delays', price: '$299 Estate Concierge' },\n  { slug: 'clear-heirs-property-title-without-selling', division: 'Heirs', title: 'How to Clear Clouded Heirs Property Title & Keep 100% Equity', price: '$499 Title Dossier' },\n  { slug: 'digital-home-warranty-appliance-tracker', division: 'Home', title: 'The Quiet-Luxury Digital Home Twin for Warranty & Recall Protection', price: '$19/mo Membership' },\n  { slug: 'audit-hidden-subscription-rate-hikes', division: 'CFO', title: 'Silent Capital Defense: Eliminating Hidden Bill Hikes & Tax Leaks', price: '$15/mo Oversight' },\n  { slug: 'encrypted-estate-document-autofill-vault', division: 'Vault', title: 'Replacing Passive Digital Lockers with Auto-Fill Estate Infrastructure', price: '$9/mo Vault' }\n];\nconst pick = topics[Math.floor(Math.random() * topics.length)];\nreturn [{ json: pick }];"
+      },
+      "id": "seo-topic-02",
+      "name": "Select Niche Problem Topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleapis.com",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"Write a complete, standalone HTML5 article page styled in Quiet Luxury Minimalism (background #FAF8F5, text #1C1B18, borders #B39968, serif Georgia headings). Topic: {{ $json.title }}. Division: Luxera {{ $json.division }}. Include: 1) Why traditional competitors fail at this problem, 2) Step-by-step resolution protocol, 3) A calm CTA button linking back to https://yourluxera.com for {{ $json.price }}. Output ONLY raw valid HTML starting with <!DOCTYPE html>.\"\n    }]\n  }]\n}",
+        "options": {}
+      },
+      "id": "seo-writer-03",
+      "name": "Draft Quiet Luxury SEO Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "create",
+        "owner": "kishasanchez1-web",
+        "repository": "luxera-local-template",
+        "filePath": "=solutions/{{ $('Select Niche Problem Topic').item.json.slug }}.html",
+        "fileContent": "={{ $json.candidates[0].content.parts[0].text.replace(/^```html\\n?|```$/g, '') }}",
+        "commitMessage": "=Auto-publish Luxera SEO page: {{ $('Select Niche Problem Topic').item.json.slug }}"
+      },
+      "id": "seo-github-04",
+      "name": "Commit Page to GitHub Pages",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [920, 300]
+    }
+  ],
+  "connections": {
+    "Every 12 Hours": {
+      "main": [
+        [
+          {
+            "node": "Select Niche Problem Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Niche Problem Topic": {
+      "main": [
+        [
+          {
+            "node": "Draft Quiet Luxury SEO Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft Quiet Luxury SEO Page": {
+      "main": [
+        [
+          {
+            "node": "Commit Page to GitHub Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
