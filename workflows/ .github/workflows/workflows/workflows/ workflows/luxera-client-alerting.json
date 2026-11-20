@@ -1,0 +1,135 @@
+{
+  "name": "Luxera - Client Alerting & Follow-Up",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "luxera-client-alert",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "node-webhook-alert",
+      "name": "Alert Trigger Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "webhookId": "luxera-client-alert"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-spanish",
+              "leftValue": "={{ $json.body.preferred_language }}",
+              "rightValue": "ES",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-lang-router",
+      "name": "Spanish or English?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "msg-es-subj",
+              "name": "email_subject",
+              "value": "Bienvenido a Luxera — Hemos recibido su solicitud",
+              "type": "string"
+            },
+            {
+              "id": "msg-es-body",
+              "name": "email_body",
+              "value": "=Hola {{ $json.body.client_name }},\n\nGracias por comunicarse con Luxera. Nuestro equipo ha recibido su información y se pondrá en contacto con usted a la brevedad.\n\nCon gratitud,\nEquipo Luxera",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-template-es",
+      "name": "Format Spanish Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [700, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "msg-en-subj",
+              "name": "email_subject",
+              "value": "Welcome to Luxera — We Have Received Your Inquiry",
+              "type": "string"
+            },
+            {
+              "id": "msg-en-body",
+              "name": "email_body",
+              "value": "=Hello {{ $json.body.client_name }},\n\nThank you for connecting with Luxera. Our team has received your details and will follow up with you shortly.\n\nWith gratitude,\nThe Luxera Team",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-template-en",
+      "name": "Format English Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [700, 400]
+    }
+  ],
+  "connections": {
+    "Alert Trigger Webhook": {
+      "main": [
+        [
+          {
+            "node": "Spanish or English?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spanish or English?": {
+      "main": [
+        [
+          {
+            "node": "Format Spanish Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format English Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null
+}
