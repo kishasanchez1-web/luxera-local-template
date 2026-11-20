@@ -1,0 +1,89 @@
+{
+  "name": "Luxera - Client Alerting & OpenRouter AI Follow-Up",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "luxera-client-alert",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "node-webhook-alert",
+      "name": "Alert Trigger Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "webhookId": "luxera-client-alert"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.OPENROUTER_API_KEY }}"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://luxeraintl.com"
+            },
+            {
+              "name": "X-Title",
+              "value": "Luxera Client Concierge"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"openai/gpt-4o-mini\",\n  \"max_tokens\": 300,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a warm, refined client concierge for Luxera. Write a brief, gracious confirmation message with a human touch and gratitude. Respond strictly in the client's preferred_language (ES for Spanish, EN for English). Return ONLY valid JSON with two keys: subject and body.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Client Name: {{ $json.body.client_name }}, Language: {{ $json.body.preferred_language || 'EN' }}, Email: {{ $json.body.client_email }}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "node-openrouter-draft",
+      "name": "Draft Bilingual Concierge Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawContent = $input.first().json.choices[0].message.content;\nconst cleaned = rawContent.replace(/```json|```/g, '').trim();\nconst parsed = JSON.parse(cleaned);\nconst lead = $('Alert Trigger Webhook').first().json.body;\n\nreturn [{\n  json: {\n    to: lead.client_email,\n    client_name: lead.client_name,\n    language: lead.preferred_language || 'EN',\n    subject: parsed.subject,\n    body: parsed.body\n  }\n}];"
+      },
+      "id": "node-parse-ai",
+      "name": "Parse Concierge Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Alert Trigger Webhook": {
+      "main": [
+        [
+          {
+            "node": "Draft Bilingual Concierge Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft Bilingual Concierge Reply": {
+      "main": [
+        [
+          {
+            "node": "Parse Concierge Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null
+}
